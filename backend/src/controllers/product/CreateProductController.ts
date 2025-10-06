@@ -1,4 +1,4 @@
-import {Request, Response } from 'express'
+import {Request, Response } from 'express' 
 import { CreateProductService } from '../../services/product/CreateProductService'
 
 class CreateProductController{
@@ -8,7 +8,7 @@ class CreateProductController{
     const createProductService = new CreateProductService();
 
     if(!req.file){
-      throw new Error("error upload file")
+      throw new Error("Erro ao enviar o arquivo")
     }else{
 
       const { originalname, filename: banner } = req.file;

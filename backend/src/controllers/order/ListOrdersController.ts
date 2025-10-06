@@ -1,4 +1,4 @@
-import {Request, Response} from 'express'
+import {Request, Response} from 'express' 
 import { ListOrdersService } from '../../services/order/ListOrdersService'
 
 class ListOrdersController{

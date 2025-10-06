@@ -1,4 +1,4 @@
-import {Request, Response} from 'express'
+import {Request, Response} from 'express' 
 import { ListByCategoryService } from '../../services/product/ListByCategoryService'
 
 class ListByCategoryController{

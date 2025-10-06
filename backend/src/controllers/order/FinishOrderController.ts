@@ -1,4 +1,4 @@
-import {Request, Response } from 'express'
+import {Request, Response } from 'express' 
 import { FinishOrderService } from '../../services/order/FinishOrderService'
 
 class FinishOrderController{

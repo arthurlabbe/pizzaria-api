@@ -1,4 +1,4 @@
-import {Request, Response} from 'express'
+import {Request, Response} from 'express' 
 import { RemoveOrderService } from '../../services/order/RemoveOrderService'
 
 class RemoveOrderController{

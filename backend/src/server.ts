@@ -1,4 +1,4 @@
-import express, { Request, Response, NextFunction } from 'express'
+import express, { Request, Response, NextFunction } from 'express' 
 import 'express-async-errors';
 import cors from 'cors';
 import path from 'path'
@@ -31,4 +31,4 @@ app.use((err: Error, req: Request, res: Response, next: NextFunction) => {
 
 })
 
-app.listen(3333, () => console.log('Servidor online!!!!'))
+app.listen(3333, () => console.log('Servidor aberto na porta 3333.'))

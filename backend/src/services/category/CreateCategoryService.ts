@@ -8,7 +8,7 @@ class CreateCategoryService{
   async execute({ name }: CategoryRequest){
     
     if(name === ''){
-      throw new Error('Name invalid')
+      throw new Error('O nome da categoria é obrigatório/inválido')
     }
 
     const category = await prismaClient.category.create({

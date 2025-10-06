@@ -1,4 +1,4 @@
-import {Request, Response} from 'express'
+import {Request, Response} from 'express' 
 import { DetailOrderSerivce } from '../../services/order/DetailOrderSerivce'
 
 class DetailOrderController{
