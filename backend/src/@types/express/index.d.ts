@@ -8,5 +8,4 @@ declare global {
   }
 }
 
-// torna o arquivo um módulo e evita conflitos de escopo
 export {};

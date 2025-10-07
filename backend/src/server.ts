@@ -1,13 +1,16 @@
 import express, { Request, Response, NextFunction } from 'express' 
 import 'express-async-errors';
 import cors from 'cors';
-import path from 'path'
+import path from 'path';
+import { setupSwagger } from "./config/swagger";
 
-import { router } from './routes'
+import router from "./routes";
 
 const app = express();
 app.use(express.json());
 app.use(cors());
+
+setupSwagger(app);
 
 app.use(router);
 
@@ -18,7 +21,6 @@ app.use(
 
 app.use((err: Error, req: Request, res: Response, next: NextFunction) => {
   if(err instanceof Error){
-    //Se for uma instancia do tipo error
     return res.status(400).json({
       error: err.message
     })
