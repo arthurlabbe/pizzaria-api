@@ -1,13 +1,16 @@
-import { Router } from "express";
-import multer from "multer";
-import uploadConfig from "../config/multer";
-import { isAuthenticated } from "../middlewares/isAuthenticated";
-import { CreateProductController } from "../controllers/product/CreateProductController";
-import { ListByCategoryController } from "../controllers/product/ListByCategoryController";
-
-const router = Router();
-const upload = multer(uploadConfig.upload("/tmp"));
-
+"use strict";
+var __importDefault = (this && this.__importDefault) || function (mod) {
+    return (mod && mod.__esModule) ? mod : { "default": mod };
+};
+Object.defineProperty(exports, "__esModule", { value: true });
+const express_1 = require("express");
+const multer_1 = __importDefault(require("multer"));
+const multer_2 = __importDefault(require("../config/multer"));
+const isAuthenticated_1 = require("../middlewares/isAuthenticated");
+const CreateProductController_1 = require("../controllers/product/CreateProductController");
+const ListByCategoryController_1 = require("../controllers/product/ListByCategoryController");
+const router = (0, express_1.Router)();
+const upload = (0, multer_1.default)(multer_2.default.upload("/tmp"));
 /**
  * @openapi
  * /product:
@@ -53,8 +56,7 @@ const upload = multer(uploadConfig.upload("/tmp"));
  */
 //upload de imagens localmente
 //router.post("/product", isAuthenticated, upload.single("file"), new CreateProductController().handle);
-router.post("/product", isAuthenticated, new CreateProductController().handle);
-
+router.post("/product", isAuthenticated_1.isAuthenticated, new CreateProductController_1.CreateProductController().handle);
 /**
  * @openapi
  * /category/product:
@@ -81,6 +83,5 @@ router.post("/product", isAuthenticated, new CreateProductController().handle);
  *       500:
  *         description: Erro interno do servidor
  */
-router.get("/category/product", isAuthenticated, new ListByCategoryController().handle);
-
-export default router;
+router.get("/category/product", isAuthenticated_1.isAuthenticated, new ListByCategoryController_1.ListByCategoryController().handle);
+exports.default = router;
