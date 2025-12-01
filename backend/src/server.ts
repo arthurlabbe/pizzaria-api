@@ -13,7 +13,7 @@ const allowedOrigins = [
   "https://pizzaria-frontend-three.vercel.app",
   "http://localhost:3000",
   "http://localhost:3333",
-  "http://localhost:8081",
+  "http://localhost:8081", // Expo Go (Mobile)
 ];
 
 app.use((req, res, next) => {
@@ -23,7 +23,10 @@ app.use((req, res, next) => {
     res.header("Access-Control-Allow-Origin", origin);
   }
 
-  res.header("Access-Control-Allow-Credentials", "true");
+  const isWeb = origin === "https://pizzaria-frontend-three.vercel.app";
+
+  res.header("Access-Control-Allow-Credentials", isWeb ? "true" : "false");
+
   res.header("Access-Control-Allow-Headers", "Content-Type, Authorization");
   res.header("Access-Control-Allow-Methods", "GET,POST,PUT,PATCH,DELETE,OPTIONS");
 
