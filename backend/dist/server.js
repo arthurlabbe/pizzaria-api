@@ -12,7 +12,25 @@ const routes_1 = __importDefault(require("./routes"));
 const express_fileupload_1 = __importDefault(require("express-fileupload"));
 const app = (0, express_1.default)();
 app.use(express_1.default.json());
-app.use((0, cors_1.default)());
+app.use((0, cors_1.default)({
+    origin: [
+        "https://pizzaria-frontend-three.vercel.app",
+        "http://localhost:3000"
+    ],
+    credentials: true,
+    methods: ["GET", "POST", "PUT", "DELETE", "PATCH"],
+    allowedHeaders: ["Content-Type", "Authorization"],
+}));
+app.use((req, res, next) => {
+    res.header("Access-Control-Allow-Origin", "https://pizzaria-frontend-three.vercel.app");
+    res.header("Access-Control-Allow-Credentials", "true");
+    res.header("Access-Control-Allow-Headers", "Content-Type, Authorization");
+    res.header("Access-Control-Allow-Methods", "GET,POST,PUT,PATCH,DELETE,OPTIONS");
+    if (req.method === "OPTIONS") {
+        return res.status(204).end();
+    }
+    next();
+});
 app.use((0, express_fileupload_1.default)({
     limits: { fileSize: 50 * 1024 * 1024 } //50mb
 }));
@@ -31,4 +49,5 @@ app.use((err, req, res, next) => {
         message: 'Internal server error.'
     });
 });
-app.listen(process.env.PORT, () => console.log('Servidor online!!!.'));
+exports.default = app;
+//app.listen(process.env.PORT, () => console.log('Servidor online!!!'))

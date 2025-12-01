@@ -16,6 +16,10 @@ const options = {
         },
         servers: [
             {
+                url: "https://pizzaria-api-eight.vercel.app",
+                description: "Servidor Deployado"
+            },
+            {
                 url: "http://localhost:3333",
                 description: "Servidor de desenvolvimento",
             },
