@@ -13,7 +13,7 @@ const allowedOrigins = [
   "https://pizzaria-frontend-three.vercel.app",
   "http://localhost:3000",
   "http://localhost:3333",
-  "http://localhost:8081", // Expo Go (Mobile)
+  "http://localhost:8081", // expo go mobile
 ];
 
 app.use((req, res, next) => {
@@ -23,7 +23,10 @@ app.use((req, res, next) => {
     res.header("Access-Control-Allow-Origin", origin);
   }
 
-  const isWeb = origin === "https://pizzaria-frontend-three.vercel.app";
+  const isWeb =
+    origin?.includes("pizzaria-frontend-three.vercel.app") ||
+    origin?.includes("localhost:3000") ||
+    origin?.includes("localhost:3333");
 
   res.header("Access-Control-Allow-Credentials", isWeb ? "true" : "false");
 
@@ -39,7 +42,7 @@ app.use((req, res, next) => {
 
 app.use(
   fileUpload({
-    limits: { fileSize: 50 * 1024 * 1024 }, // 50mb
+    limits: { fileSize: 50 * 1024 * 1024 },
   })
 );
 

@@ -15,14 +15,16 @@ const allowedOrigins = [
     "https://pizzaria-frontend-three.vercel.app",
     "http://localhost:3000",
     "http://localhost:3333",
-    "http://localhost:8081", // Expo Go (Mobile)
+    "http://localhost:8081", // expo go mobile
 ];
 app.use((req, res, next) => {
     const origin = req.headers.origin;
     if (origin && allowedOrigins.includes(origin)) {
         res.header("Access-Control-Allow-Origin", origin);
     }
-    const isWeb = origin === "https://pizzaria-frontend-three.vercel.app";
+    const isWeb = origin?.includes("pizzaria-frontend-three.vercel.app") ||
+        origin?.includes("localhost:3000") ||
+        origin?.includes("localhost:3333");
     res.header("Access-Control-Allow-Credentials", isWeb ? "true" : "false");
     res.header("Access-Control-Allow-Headers", "Content-Type, Authorization");
     res.header("Access-Control-Allow-Methods", "GET,POST,PUT,PATCH,DELETE,OPTIONS");
@@ -32,7 +34,7 @@ app.use((req, res, next) => {
     next();
 });
 app.use((0, express_fileupload_1.default)({
-    limits: { fileSize: 50 * 1024 * 1024 }, // 50mb
+    limits: { fileSize: 50 * 1024 * 1024 },
 }));
 (0, swagger_1.setupSwagger)(app);
 app.use(routes_1.default);
