@@ -20,7 +20,18 @@ app.use(cors({
   allowedHeaders: ["Content-Type", "Authorization"],
 }));
 
-app.options("*", cors());
+app.use((req, res, next) => {
+  res.header("Access-Control-Allow-Origin", "https://pizzaria-frontend-three.vercel.app");
+  res.header("Access-Control-Allow-Credentials", "true");
+  res.header("Access-Control-Allow-Headers", "Content-Type, Authorization");
+  res.header("Access-Control-Allow-Methods", "GET,POST,PUT,PATCH,DELETE,OPTIONS");
+
+  if (req.method === "OPTIONS") {
+    return res.status(204).end();
+  }
+
+  next();
+});
 
 app.use(fileUpload({
   limits: { fileSize: 50 * 1024 * 1024} //50mb
@@ -50,4 +61,5 @@ app.use((err: Error, req: Request, res: Response, next: NextFunction) => {
 
 })
 
-app.listen(process.env.PORT, () => console.log('Servidor online!!!'))
+export default app;
+//app.listen(process.env.PORT, () => console.log('Servidor online!!!'))
