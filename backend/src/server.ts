@@ -13,7 +13,11 @@ app.use(express.json());
 app.use(cors({
   origin: [
     "https://pizzaria-frontend-three.vercel.app",
-    "http://localhost:3000"
+    "http://localhost:3000",
+    "http://localhost:3333",
+    "http://localhost:8081",
+    "exp://*",
+    /^http:\/\/192\.168\.\d+\.\d+(:\d+)?$/
   ],
   credentials: true,
   methods: ["GET", "POST", "PUT", "DELETE", "PATCH"],
@@ -21,15 +25,19 @@ app.use(cors({
 }));
 
 app.use((req, res, next) => {
-  res.header("Access-Control-Allow-Origin", "https://pizzaria-frontend-three.vercel.app");
+  if (req.method === "OPTIONS") {
+  res.header("Access-Control-Allow-Origin", req.headers.origin || "*");
+  //res.header("Access-Control-Allow-Origin", "https://pizzaria-frontend-three.vercel.app");
+  //res.header("Access-Control-Allow-Origin", "http://localhost:8081");
   res.header("Access-Control-Allow-Credentials", "true");
   res.header("Access-Control-Allow-Headers", "Content-Type, Authorization");
   res.header("Access-Control-Allow-Methods", "GET,POST,PUT,PATCH,DELETE,OPTIONS");
+  return res.status(204).end();
 
-  if (req.method === "OPTIONS") {
-    return res.status(204).end();
+  //if (req.method === "OPTIONS") {
+    //return res.status(204).end();
+  //}
   }
-
   next();
 });
 
