@@ -5,19 +5,25 @@ export class AuthUserController {
   async handle(req: Request, res: Response) {
     const { email, password } = req.body;
     const service = new AuthUserService();
-    
-    const token = await service.execute({ email, password });
 
-    const maxAge = 60 * 60 * 24 * 30;
+    const result = await service.execute({ email, password });
 
-    res.cookie("session", token, {
-      httpOnly: true,
-      secure: true,
-      sameSite: "none",
-      path: "/",
-      maxAge: maxAge * 1000
-    });
+    const isMobile = req.headers["x-mobile-app"] === "true";
 
-    return res.json({ ok: true });
+    if (!isMobile) {
+      const maxAge = 60 * 60 * 24 * 30;
+
+      res.cookie("session", result.token, {
+        httpOnly: true,
+        secure: true,
+        sameSite: "none",
+        path: "/",
+        maxAge: maxAge * 1000,
+      });
+
+      return res.json({ ok: true });
+    }
+
+    return res.json(result);
   }
 }
