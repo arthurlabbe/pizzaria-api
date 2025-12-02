@@ -11,33 +11,29 @@ const routes_1 = __importDefault(require("./routes"));
 const express_fileupload_1 = __importDefault(require("express-fileupload"));
 const app = (0, express_1.default)();
 app.use(express_1.default.json());
-// Domínios permitidos
 const allowedOrigins = [
-    "https://pizzaria-frontend-three.vercel.app", // WEB
+    "https://pizzaria-frontend-three.vercel.app",
     "http://localhost:3000",
     "http://localhost:3333",
-    "http://localhost:8081" // EXPO GO
+    "http://localhost:8081"
 ];
-// Middleware CORS unificado
 app.use((req, res, next) => {
     const origin = req.headers.origin;
-    // WEB precisa de credenciais TRUE
     const isWeb = origin === "https://pizzaria-frontend-three.vercel.app" ||
         origin === "http://localhost:3000" ||
         origin === "http://localhost:3333";
-    // MOBILE não pode usar credentials
     const isMobile = origin === "http://localhost:8081";
-    // Permitir somente origins válidos
     if (origin && allowedOrigins.includes(origin)) {
         res.header("Access-Control-Allow-Origin", origin);
     }
+    else {
+        res.header("Access-Control-Allow-Origin", "https://pizzaria-frontend-three.vercel.app");
+    }
     res.header("Access-Control-Allow-Headers", "Content-Type, Authorization");
     res.header("Access-Control-Allow-Methods", "GET, POST, PUT, PATCH, DELETE, OPTIONS");
-    // WEB → usa cookies
     if (isWeb) {
         res.header("Access-Control-Allow-Credentials", "true");
     }
-    // MOBILE → sem credentials
     if (isMobile) {
         res.header("Access-Control-Allow-Credentials", "false");
     }

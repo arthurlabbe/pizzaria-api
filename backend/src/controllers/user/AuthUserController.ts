@@ -17,6 +17,7 @@ export class AuthUserController {
         httpOnly: true,
         secure: true,
         sameSite: "none",
+        domain: ".vercel.app",
         path: "/",
         maxAge: maxAge * 1000,
       });

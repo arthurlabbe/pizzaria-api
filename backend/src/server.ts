@@ -8,12 +8,11 @@ import fileUpload from "express-fileupload";
 const app = express();
 app.use(express.json());
 
-
 const allowedOrigins = [
   "https://pizzaria-frontend-three.vercel.app",
   "http://localhost:3000",
   "http://localhost:3333",
-  "http://localhost:8081" // EXPO GO
+  "http://localhost:8081"
 ];
 
 app.use((req, res, next) => {
@@ -29,6 +28,8 @@ app.use((req, res, next) => {
 
   if (origin && allowedOrigins.includes(origin)) {
     res.header("Access-Control-Allow-Origin", origin);
+  } else {
+    res.header("Access-Control-Allow-Origin", "https://pizzaria-frontend-three.vercel.app");
   }
 
   res.header("Access-Control-Allow-Headers", "Content-Type, Authorization");
