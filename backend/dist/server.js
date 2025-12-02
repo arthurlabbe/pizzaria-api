@@ -11,34 +11,47 @@ const routes_1 = __importDefault(require("./routes"));
 const express_fileupload_1 = __importDefault(require("express-fileupload"));
 const app = (0, express_1.default)();
 app.use(express_1.default.json());
+// Domínios permitidos
 const allowedOrigins = [
-    "https://pizzaria-frontend-three.vercel.app",
+    "https://pizzaria-frontend-three.vercel.app", // WEB
     "http://localhost:3000",
     "http://localhost:3333",
-    "http://localhost:8081", // expo go mobile
+    "http://localhost:8081" // EXPO GO
 ];
+// Middleware CORS unificado
 app.use((req, res, next) => {
     const origin = req.headers.origin;
+    // WEB precisa de credenciais TRUE
+    const isWeb = origin === "https://pizzaria-frontend-three.vercel.app" ||
+        origin === "http://localhost:3000" ||
+        origin === "http://localhost:3333";
+    // MOBILE não pode usar credentials
+    const isMobile = origin === "http://localhost:8081";
+    // Permitir somente origins válidos
     if (origin && allowedOrigins.includes(origin)) {
         res.header("Access-Control-Allow-Origin", origin);
     }
-    const isWeb = origin?.includes("pizzaria-frontend-three.vercel.app") ||
-        origin?.includes("localhost:3000") ||
-        origin?.includes("localhost:3333");
-    res.header("Access-Control-Allow-Credentials", isWeb ? "true" : "false");
     res.header("Access-Control-Allow-Headers", "Content-Type, Authorization");
-    res.header("Access-Control-Allow-Methods", "GET,POST,PUT,PATCH,DELETE,OPTIONS");
+    res.header("Access-Control-Allow-Methods", "GET, POST, PUT, PATCH, DELETE, OPTIONS");
+    // WEB → usa cookies
+    if (isWeb) {
+        res.header("Access-Control-Allow-Credentials", "true");
+    }
+    // MOBILE → sem credentials
+    if (isMobile) {
+        res.header("Access-Control-Allow-Credentials", "false");
+    }
     if (req.method === "OPTIONS") {
         return res.status(204).end();
     }
     next();
 });
 app.use((0, express_fileupload_1.default)({
-    limits: { fileSize: 50 * 1024 * 1024 },
+    limits: { fileSize: 50 * 1024 * 1024 }
 }));
 (0, swagger_1.setupSwagger)(app);
 app.use(routes_1.default);
-app.use('/files', express_1.default.static(path_1.default.resolve(__dirname, '..', 'tmp')));
+app.use("/files", express_1.default.static(path_1.default.resolve(__dirname, "..", "tmp")));
 app.use((err, req, res, next) => {
     if (err instanceof Error) {
         return res.status(400).json({ error: err.message });
