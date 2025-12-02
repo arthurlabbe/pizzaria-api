@@ -13,6 +13,7 @@ const cookie_parser_1 = __importDefault(require("cookie-parser"));
 const cors_1 = __importDefault(require("cors"));
 const app = (0, express_1.default)();
 app.use(express_1.default.json());
+app.use((0, cookie_parser_1.default)());
 const allowedOrigins = [
     "https://pizzaria-frontend-three.vercel.app",
     "http://localhost:3000",
@@ -32,11 +33,8 @@ const corsOptions = {
     methods: ["GET", "POST", "PUT", "PATCH", "DELETE", "OPTIONS"],
     allowedHeaders: ["Content-Type", "Authorization", "x-mobile-app"],
     exposedHeaders: ["Set-Cookie"],
-    optionsSuccessStatus: 200,
 };
 app.use((0, cors_1.default)(corsOptions));
-app.options("*", (0, cors_1.default)(corsOptions));
-app.use((0, cookie_parser_1.default)());
 app.use((0, express_fileupload_1.default)({
     limits: { fileSize: 50 * 1024 * 1024 },
 }));
@@ -44,6 +42,7 @@ app.use((0, express_fileupload_1.default)({
 app.use(routes_1.default);
 app.use("/files", express_1.default.static(path_1.default.resolve(__dirname, "..", "tmp")));
 app.use((err, req, res, next) => {
+    console.error("Erro:", err.message);
     if (err instanceof Error) {
         return res.status(400).json({ error: err.message });
     }
@@ -52,4 +51,5 @@ app.use((err, req, res, next) => {
         message: "Internal server error.",
     });
 });
+//app.listen(process.env.PORT, () => console.log('Servidor online!!!'))
 exports.default = app;

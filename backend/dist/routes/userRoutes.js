@@ -78,5 +78,5 @@ router.post("/session", new AuthUserController_1.AuthUserController().handle);
  *       500:
  *         description: Erro interno
  */
-router.get("/me", isAuthenticated_1.isAuthenticated, new DetailUserController_1.DetailuserController().handle);
+router.get("/me", isAuthenticated_1.isAuthenticated, new DetailUserController_1.DetailUserController().handle);
 exports.default = router;

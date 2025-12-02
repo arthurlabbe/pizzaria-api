@@ -9,6 +9,7 @@ import cors, { CorsOptions } from "cors";
 
 const app = express();
 app.use(express.json());
+app.use(cookieParser());
 
 const allowedOrigins = [
   "https://pizzaria-frontend-three.vercel.app",
@@ -28,13 +29,9 @@ const corsOptions: CorsOptions = {
   methods: ["GET", "POST", "PUT", "PATCH", "DELETE", "OPTIONS"],
   allowedHeaders: ["Content-Type", "Authorization", "x-mobile-app"],
   exposedHeaders: ["Set-Cookie"],
-  optionsSuccessStatus: 200,
 };
 
 app.use(cors(corsOptions));
-app.options("*", cors(corsOptions));
-
-app.use(cookieParser());
 
 app.use(
   fileUpload({
@@ -43,11 +40,16 @@ app.use(
 );
 
 setupSwagger(app);
+
+
 app.use(router);
+
 
 app.use("/files", express.static(path.resolve(__dirname, "..", "tmp")));
 
 app.use((err: Error, req: Request, res: Response, next: NextFunction) => {
+  console.error("Erro:", err.message);
+
   if (err instanceof Error) {
     return res.status(400).json({ error: err.message });
   }
@@ -57,5 +59,5 @@ app.use((err: Error, req: Request, res: Response, next: NextFunction) => {
     message: "Internal server error.",
   });
 });
-
+//app.listen(process.env.PORT, () => console.log('Servidor online!!!'))
 export default app;

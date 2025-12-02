@@ -1,13 +1,12 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.DetailuserController = void 0;
+exports.DetailUserController = void 0;
 const DetailUserService_1 = require("../../services/user/DetailUserService");
-class DetailuserController {
+class DetailUserController {
     async handle(req, res) {
-        const user_id = req.user_id;
-        const detailUserService = new DetailUserService_1.DetailUserService();
-        const user = await detailUserService.execute(user_id);
-        return res.json(user);
+        const service = new DetailUserService_1.DetailUserService();
+        const result = await service.execute(req.user_id);
+        return res.json(result);
     }
 }
-exports.DetailuserController = DetailuserController;
+exports.DetailUserController = DetailUserController;

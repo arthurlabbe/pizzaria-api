@@ -9,11 +9,10 @@ const bcryptjs_1 = require("bcryptjs");
 const jsonwebtoken_1 = require("jsonwebtoken");
 class AuthUserService {
     async execute({ email, password }) {
-        //Verificar se o email existe.
         const user = await prisma_1.default.user.findFirst({
             where: {
-                email: email
-            }
+                email: email,
+            },
         });
         if (!user) {
             throw new Error("Usuário/Senha incorreta");
@@ -22,19 +21,18 @@ class AuthUserService {
         if (!passwordMatch) {
             throw new Error("Usuário/Senha incorreta");
         }
-        // Se deu tudo certo vamos gerar o token pro usuario.
         const token = (0, jsonwebtoken_1.sign)({
             name: user.name,
-            email: user.email
+            email: user.email,
         }, process.env.JWT_SECRET, {
             subject: user.id,
-            expiresIn: '30d'
+            expiresIn: "30d",
         });
         return {
             id: user.id,
             name: user.name,
             email: user.email,
-            token: token
+            token,
         };
     }
 }

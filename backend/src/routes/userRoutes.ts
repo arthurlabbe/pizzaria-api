@@ -1,7 +1,7 @@
 import { Router } from "express";
 import { CreateUserController } from "../controllers/user/CreateUserController";
 import { AuthUserController } from "../controllers/user/AuthUserController";
-import { DetailuserController } from "../controllers/user/DetailUserController";
+import { DetailUserController } from "../controllers/user/DetailUserController";
 
 import { isAuthenticated } from "../middlewares/isAuthenticated";
 
@@ -81,6 +81,6 @@ router.post("/session", new AuthUserController().handle);
  *       500:
  *         description: Erro interno
  */
-router.get("/me", isAuthenticated, new DetailuserController().handle);
+router.get("/me", isAuthenticated, new DetailUserController().handle);
 
 export default router;
