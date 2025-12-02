@@ -9,8 +9,10 @@ const path_1 = __importDefault(require("path"));
 const swagger_1 = require("./config/swagger");
 const routes_1 = __importDefault(require("./routes"));
 const express_fileupload_1 = __importDefault(require("express-fileupload"));
+const cookie_parser_1 = __importDefault(require("cookie-parser"));
 const app = (0, express_1.default)();
 app.use(express_1.default.json());
+app.use((0, cookie_parser_1.default)());
 const allowedOrigins = [
     "https://pizzaria-frontend-three.vercel.app",
     "http://localhost:3000",
@@ -31,7 +33,7 @@ app.use((req, res, next) => {
     next();
 });
 app.use((0, express_fileupload_1.default)({
-    limits: { fileSize: 50 * 1024 * 1024 }
+    limits: { fileSize: 50 * 1024 * 1024 } // 50 MB
 }));
 (0, swagger_1.setupSwagger)(app);
 app.use(routes_1.default);
