@@ -7,17 +7,18 @@ export class AuthUserController {
     const service = new AuthUserService();
 
     const result = await service.execute({ email, password });
-
+    
     const isMobile = req.headers["x-mobile-app"] === "true";
 
+    const isDev = process.env.NODE_ENV !== "production";
+
     if (!isMobile) {
-      const maxAge = 60 * 60 * 24 * 30;
+      const maxAge = 60 * 60 * 24 * 30; // 30 dias
 
       res.cookie("session", result.token, {
         httpOnly: true,
-        secure: true,
-        sameSite: "none",
-        domain: ".vercel.app",
+        secure: !isDev,
+        sameSite: isDev ? "lax" : "none",
         path: "/",
         maxAge: maxAge * 1000,
       });
