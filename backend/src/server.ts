@@ -5,47 +5,36 @@ import { setupSwagger } from "./config/swagger";
 import router from "./routes";
 import fileUpload from "express-fileupload";
 import cookieParser from "cookie-parser";
+import cors from "cors";
 
 const app = express();
 app.use(express.json());
 app.use(cookieParser());
 
-
 const allowedOrigins = [
   "https://pizzaria-frontend-three.vercel.app",
   "http://localhost:3000",
-  "http://localhost:3333",
-  "http://localhost:8081"
+  "http://localhost:8081",
+  "http://localhost:19006",
+  "http://localhost:19000"
 ];
 
-app.use((req, res, next) => {
-  const origin = req.headers.origin;
+app.use(cors({
+  origin: (origin, callback) => {
+    if (!origin) return callback(null, true);
+    if (allowedOrigins.includes(origin)) return callback(null, true);
+    return callback(new Error("Not allowed by CORS"));
+  },
+  credentials: true,
+  methods: ["GET", "POST", "PUT", "PATCH", "DELETE", "OPTIONS"],
+  allowedHeaders: ["Content-Type", "Authorization"],
+}));
 
-  const allowedOrigins = [
-    "https://pizzaria-frontend-three.vercel.app",
-    "http://localhost:3000",
-    "http://localhost:3333",
-    "http://localhost:8081"
-  ];
-
-  if (origin && allowedOrigins.includes(origin)) {
-    res.header("Access-Control-Allow-Origin", origin);
-  }
-
-  res.header("Access-Control-Allow-Credentials", "true");
-  res.header("Access-Control-Allow-Headers", "Content-Type, Authorization");
-  res.header("Access-Control-Allow-Methods", "GET,POST,PUT,PATCH,DELETE,OPTIONS");
-
-  if (req.method === "OPTIONS") {
-    return res.status(204).end();
-  }
-
-  next();
-});
+app.options("*", cors());
 
 app.use(
   fileUpload({
-    limits: { fileSize: 50 * 1024 * 1024 } // 50 MB
+    limits: { fileSize: 50 * 1024 * 1024 },
   })
 );
 
