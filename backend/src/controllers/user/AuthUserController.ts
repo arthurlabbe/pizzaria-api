@@ -17,7 +17,7 @@ export class AuthUserController {
         httpOnly: true,
         secure: true,
         sameSite: "none",
-        domain: "pizzaria-frontend-three.vercel.app",
+        domain: "pizzaria-api-eight.vercel.app",
         path: "/",
         maxAge: maxAge * 1000,
       });
