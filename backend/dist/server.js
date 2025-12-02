@@ -21,12 +21,18 @@ const allowedOrigins = [
 ];
 app.use((req, res, next) => {
     const origin = req.headers.origin;
+    const allowedOrigins = [
+        "https://pizzaria-frontend-three.vercel.app",
+        "http://localhost:3000",
+        "http://localhost:3333",
+        "http://localhost:8081"
+    ];
     if (origin && allowedOrigins.includes(origin)) {
         res.header("Access-Control-Allow-Origin", origin);
     }
     res.header("Access-Control-Allow-Credentials", "true");
     res.header("Access-Control-Allow-Headers", "Content-Type, Authorization");
-    res.header("Access-Control-Allow-Methods", "GET, POST, PUT, PATCH, DELETE, OPTIONS");
+    res.header("Access-Control-Allow-Methods", "GET,POST,PUT,PATCH,DELETE,OPTIONS");
     if (req.method === "OPTIONS") {
         return res.status(204).end();
     }
