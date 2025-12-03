@@ -8,7 +8,10 @@ import cookieParser from "cookie-parser";
 import cors, { CorsOptions } from "cors";
 
 const app = express();
+app.set("trust proxy", 1);
+
 app.use(express.json());
+
 app.use(cookieParser());
 
 const allowedOrigins = [
